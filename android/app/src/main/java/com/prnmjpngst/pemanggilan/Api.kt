@@ -61,6 +61,7 @@ fun createApi(baseUrl: String, apiKey: String): PemanggilanApi {
         .addInterceptor { chain ->
             val req = chain.request().newBuilder()
                 .header("X-API-Key", apiKey)
+                .header("User-Agent", "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36")
                 .build()
             chain.proceed(req)
         }

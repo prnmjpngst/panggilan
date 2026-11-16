@@ -24,7 +24,7 @@ function poll() {
   const res = UrlFetchApp.fetch(CONFIG.BACKEND_URL + '/api/ingest', {
     method: 'post',
     contentType: 'application/json',
-    headers: { 'X-API-Key': CONFIG.API_KEY },
+    headers: { 'X-API-Key': CONFIG.API_KEY, 'User-Agent': 'Mozilla/5.0 (compatible; Google-Apps-Script)' },
     payload: payload,
     muteHttpExceptions: true,
   });
