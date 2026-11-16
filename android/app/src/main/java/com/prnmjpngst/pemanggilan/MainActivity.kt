@@ -59,7 +59,7 @@ fun AppRoot() {
     var statusText by remember { mutableStateOf("Memuat...") }
     val scope = rememberCoroutineScope()
 
-    fun refresh() {
+    val refresh: () -> Unit = {
         scope.launch {
             try {
                 val api = createApi(cfg.baseUrl, cfg.apiKey)
@@ -150,6 +150,7 @@ fun ConfigScreen(cfg: AppConfig, onSave: (AppConfig) -> Unit) {
     var lulusVal by remember { mutableStateOf(cfg.lulusValue) }
 
     Column(Modifier.fillMaxSize().padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        @Composable
         fun field(label: String, value: String, onChange: (String) -> Unit) {
             OutlinedTextField(value = value, onValueChange = onChange, label = { Text(label) }, modifier = Modifier.fillMaxWidth())
         }
