@@ -38,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,8 +78,18 @@ fun AppRoot() {
     var vehicles by remember { mutableStateOf<List<Vehicle>>(emptyList()) }
     var statusText by remember { mutableStateOf("Memuat...") }
     var doneExpanded by remember { mutableStateOf(false) }
+    var updateInfo by remember { mutableStateOf<ReleaseInfo?>(null) }
+    var downloading by remember { mutableStateOf(false) }
+    var progress by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+
+    LaunchedEffect(Unit) {
+        val latest = UpdateManager.checkLatest()
+        if (latest != null && latest.tag != UpdateManager.getLastTag(ctx)) {
+            updateInfo = latest
+        }
+    }
 
     val refresh: () -> Unit = {
         scope.launch {
@@ -123,6 +134,28 @@ fun AppRoot() {
             Column(Modifier.padding(pad).fillMaxSize()) {
                 Row(Modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = { refresh() }) { Text("Refresh") }
+                    if (updateInfo != null) {
+                        Button(onClick = {
+                            val info = updateInfo ?: return@Button
+                            if (!UpdateManager.canInstall(ctx)) {
+                                UpdateManager.openInstallSettings(ctx)
+                            } else {
+                                downloading = true
+                                scope.launch {
+                                    try {
+                                        val file = UpdateManager.downloadApk(ctx, info.apkUrl, info.fileName) { p -> progress = p }
+                                        UpdateManager.setLastTag(ctx, info.tag)
+                                        UpdateManager.installApk(ctx, file)
+                                        updateInfo = null
+                                    } catch (e: Exception) {
+                                        statusText = "Update gagal: ${e.message}"
+                                    } finally {
+                                        downloading = false
+                                    }
+                                }
+                            }
+                        }) { Text(if (downloading) "Mengunduh $progress%" else "Update ${updateInfo?.tag}") }
+                    }
                 }
                 Text(statusText, Modifier.padding(horizontal = 8.dp))
                 Spacer(Modifier.height(8.dp))
