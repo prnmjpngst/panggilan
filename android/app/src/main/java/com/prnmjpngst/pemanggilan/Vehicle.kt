@@ -6,6 +6,7 @@ data class Vehicle(
     val status: String,
     val calledCount: Int,
     val lastCalledAt: String?,
+    val createdAt: String? = null,
 ) {
     fun field(cfg: AppConfig, col: String): String {
         val key = when (col) {
@@ -25,6 +26,7 @@ fun VehicleDto.toVehicle() = Vehicle(
     status = status,
     calledCount = calledCount,
     lastCalledAt = lastCalledAt,
+    createdAt = createdAt,
 )
 
 fun isGagal(v: Vehicle, cfg: AppConfig): Boolean =

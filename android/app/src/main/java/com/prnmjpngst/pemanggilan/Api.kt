@@ -16,6 +16,7 @@ data class VehicleDto(
     val status: String = "pending",
     val calledCount: Int = 0,
     val lastCalledAt: String? = null,
+    val createdAt: String? = null,
 )
 
 data class MetaResponse(

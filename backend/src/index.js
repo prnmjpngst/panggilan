@@ -56,6 +56,7 @@ function ingestHandler(req, res) {
   if (headers.length) d.headers = headers;
   let created = 0, updated = 0;
   const now = new Date().toISOString();
+  const incomingIds = new Set();
   for (const raw of rows) {
     if (!raw || typeof raw !== 'object') continue;
     let id = null;
@@ -72,6 +73,7 @@ function ingestHandler(req, res) {
       else id = 'row-' + Math.random().toString(36).slice(2, 10);
     }
     if (!id || id === '|') id = 'row-' + Math.random().toString(36).slice(2, 10);
+    incomingIds.add(id);
     const existing = d.rows[id];
     const record = {
       id,
@@ -86,6 +88,14 @@ function ingestHandler(req, res) {
     if (existing) updated++; else created++;
     d.rows[id] = record;
     if (!d.order.includes(id)) d.order.push(id);
+  }
+  // Remove rows no longer present in the sheet
+  for (const id of Object.keys(d.rows)) {
+    if (!incomingIds.has(id)) {
+      delete d.rows[id];
+      const idx = d.order.indexOf(id);
+      if (idx !== -1) d.order.splice(idx, 1);
+    }
   }
   d.lastSync = now;
   saveData(d);
