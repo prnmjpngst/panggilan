@@ -67,9 +67,9 @@ function ingestHandler(req, res) {
       }
     }
     if (!id) {
-      // fallback: plate + name
       const plate = raw['NOMOR KENDARAAN'] || raw['plate'] || raw['Plate'] || '';
-      id = String(plate).trim() + '|' + (raw['NOMOR WA'] || '');
+      if (String(plate).trim() !== '') id = String(plate).trim();
+      else id = 'row-' + Math.random().toString(36).slice(2, 10);
     }
     if (!id || id === '|') id = 'row-' + Math.random().toString(36).slice(2, 10);
     const existing = d.rows[id];
