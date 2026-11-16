@@ -1,0 +1,7 @@
+node_modules/
+backend/data/
+backend/.env
+*.apk
+.gradle/
+build/
+local.properties
