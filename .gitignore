@@ -2,6 +2,7 @@ node_modules/
 backend/data/
 backend/.env
 *.apk
+*.keystore
 .gradle/
 build/
 local.properties
