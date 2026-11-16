@@ -31,7 +31,8 @@ android {
 
     buildTypes {
         release {
-            if (System.getenv("KEYSTORE_BASE64") != null) {
+            val ksFile = file(System.getenv("KEYSTORE_FILE") ?: "release.keystore")
+            if (ksFile.exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
             isMinifyEnabled = false
