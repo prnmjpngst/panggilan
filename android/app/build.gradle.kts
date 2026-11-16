@@ -18,10 +18,9 @@ android {
 
     signingConfigs {
         create("release") {
-            val ksBase64 = System.getenv("KEYSTORE_BASE64")
-            if (ksBase64 != null) {
-                val ksFile = file("release-decoded.keystore")
-                ksFile.writeBytes(java.util.Base64.getDecoder().decode(ksBase64))
+            val ksPath = System.getenv("KEYSTORE_FILE") ?: "release.keystore"
+            val ksFile = file(ksPath)
+            if (ksFile.exists()) {
                 storeFile = ksFile
                 storePassword = System.getenv("KEYSTORE_PASSWORD")
                 keyAlias = System.getenv("KEY_ALIAS")
