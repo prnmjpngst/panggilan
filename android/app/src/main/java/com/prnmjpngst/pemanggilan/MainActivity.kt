@@ -115,6 +115,7 @@ fun AppRoot() {
                     Spacer(Modifier.height(8.dp))
                     Button(onClick = { screen = "home"; scope.launch { drawerState.close() } }, modifier = Modifier.fillMaxWidth()) { Text("Home") }
                     Button(onClick = { screen = "config"; scope.launch { drawerState.close() } }, modifier = Modifier.fillMaxWidth()) { Text("Config") }
+                    Button(onClick = { scope.launch { AudioPlayer.playClip(ctx, "mulai-uji.mp3"); drawerState.close() } }, modifier = Modifier.fillMaxWidth()) { Text("Mulai Uji") }
                 }
             }
         }
