@@ -118,14 +118,18 @@ fun AppRoot() {
                     Button(onClick = { scope.launch { AudioPlayer.playClip(ctx, "mulai-uji.mp3"); drawerState.close() } }, modifier = Modifier.fillMaxWidth()) { Text("Mulai Uji") }
                     Button(onClick = {
                         scope.launch {
-                            val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-                            val plate = (1..7).map { chars.random() }.joinToString("")
-                            val gagal = listOf(true, false).random()
-                            val clips = buildClips(plate, gagal)
+                            val clips = buildClips("N1234YK", false)
                             AudioPlayer.playSequence(ctx, clips)
                             drawerState.close()
                         }
-                    }, modifier = Modifier.fillMaxWidth()) { Text("Test Panggilan") }
+                    }, modifier = Modifier.fillMaxWidth()) { Text("Test Loket") }
+                    Button(onClick = {
+                        scope.launch {
+                            val clips = buildClips("N1234YK", true)
+                            AudioPlayer.playSequence(ctx, clips)
+                            drawerState.close()
+                        }
+                    }, modifier = Modifier.fillMaxWidth()) { Text("Test Ruang Penguji") }
                 }
             }
         }
