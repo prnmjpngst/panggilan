@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 val Context.dataStore by preferencesDataStore(name = "pemanggilan_config")
 
 data class AppConfig(
-    val baseUrl: String = "https://prnmjpngst.pw/pemanggilan",
+    val baseUrl: String = "https://ann.prnmjpngst.pw",
     val apiKey: String = "panggilan-dev-key-2026-change-me",
     val pollIntervalSec: Int = 30,
     val repeatCount: Int = 2,
@@ -45,7 +45,7 @@ object ConfigKeys {
 
 fun Context.configFlow(): Flow<AppConfig> = dataStore.data.map { p ->
     AppConfig(
-        baseUrl = p[ConfigKeys.BASE_URL] ?: "https://prnmjpngst.pw/pemanggilan",
+        baseUrl = p[ConfigKeys.BASE_URL] ?: "https://ann.prnmjpngst.pw",
         apiKey = p[ConfigKeys.API_KEY] ?: "panggilan-dev-key-2026-change-me",
         pollIntervalSec = p[ConfigKeys.POLL_INTERVAL] ?: 30,
         repeatCount = p[ConfigKeys.REPEAT_COUNT] ?: 2,

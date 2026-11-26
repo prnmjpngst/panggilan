@@ -2,7 +2,7 @@
 // Set triggers: onEdit (installable) and time-driven every 1 minute.
 
 const CONFIG = {
-  BACKEND_URL: 'https://prnmjpngst.pw/pemanggilan',
+  BACKEND_URL: 'https://ann.prnmjpngst.pw',
   API_KEY: 'panggilan-dev-key-2026-change-me',
   SHEET_NAME: 'IDENTIFIKASI',
   KEY_COLUMN: 'NOMOR UJI',
