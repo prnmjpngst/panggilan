@@ -30,6 +30,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
+app.get('/', (req, res) => res.json({ ok: true, service: 'pemanggilan', endpoints: ['/health','/api/meta','/api/vehicles'] }));
 app.get('/health', (req, res) => res.json({ ok: true, service: 'pemanggilan' }));
 // also under /pemanggilan? handled by path prefix? cloudflared strips? Actually service receives full path /pemanggilan/...
 // We'll support both by mounting routers? Simpler: make all routes work with optional prefix.
